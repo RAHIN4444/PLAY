@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>VIP প্লে স্টোর - ফ্রি ও পেইড APK (রিয়েল ডাউনলোড)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      font-family: 'Hind Siliguri', sans-serif;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body {
+      background-color: #060911;
+      color: #f8fafc;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+    @keyframes rainbowBorderAnim {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .rainbow-edge-frame {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 45;
+      padding: 4px;
+      background: linear-gradient(
+        60deg,
+        #ff004c,
+        #ff7b00,
+        #ffe600,
+        #00ff66,
+        #00d9ff,
+        #7000ff,
+        #ff00c8,
+        #ff004c
+      );
+      background-size: 300% 300%;
+      animation: rainbowBorderAnim 3.5s ease infinite;
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+    }
+    .rainbow-edge-glow {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 44;
+      box-shadow:
+        inset 0 0 18px rgba(255, 0, 128, 0.5),
+        inset 0 0 30px rgba(0, 240, 255, 0.4),
+        inset 0 0 42px rgba(0, 255, 102, 0.3);
+    }
+    @keyframes floatBalloon {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-6px); }
+    }
+    .ai-balloon-float {
+      animation: floatBalloon 2.5s ease-in-out infinite;
+    }
+    ::-webkit-scrollbar { width: 4px; height: 4px; }
+    ::-webkit-scrollbar-track { background: #0f172a; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 9999px; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col items-center bg-slate-950 text-slate-100 select-none">
+
+  <!-- Animated Rainbow Edge Frame (Visible after login) -->
+  <div id="rainbowWrapper" class="hidden">
+    <div class="rainbow-edge-frame"></div>
+    <div class="rainbow-edge-glow"></div>
+  </div>
+
+  <!-- Secret Top-Left Corner Lock Icon for Admin Panel -->
+  <button id="secretLockBtn" onclick="openAdminLockModal()" title="Admin Lock"
+    class="fixed top-2 left-2 z-50 w-7 h-7 rounded-full bg-slate-900/75 hover:bg-slate-800 border border-slate-700/50 flex items-center justify-center text-slate-400 hover:text-amber-400 transition">
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+      <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+    </svg>
+  </button>
+
+  <!-- Notification Toast Banner -->
+  <div id="toastBanner" class="fixed top-4 left-1/2 -translate-x-1/2 z-[100] hidden max-w-[92vw] sm:max-w-md w-full px-3">
+    <div id="toastInner" class="rounded-2xl px-4 py-3 shadow-2xl border text-xs font-semibold flex items-center gap-2.5 backdrop-blur-md"></div>
+  </div>
+
+  <!-- ==================== 1. LOGIN & REGISTRATION SCREEN ==================== -->
+  <div id="loginScreen" class="w-full max-w-md min-h-screen flex flex-col justify-center px-5 py-8 z-20">
+    <div class="bg-slate-900/95 border border-slate-800 rounded-3xl p-6 shadow-2xl relative overflow-hidden">
+      <div class="absolute -top-20 -right-20 w-44 h-44 bg-gradient-to-br from-pink-500/20 via-cyan-500/20 to-emerald-500/20 rounded-full blur-2xl"></div>
+
+      <div class="flex flex-col items-center text-center mb-6">
+        <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-emerald-500 via-cyan-500 to-purple-600 p-0.5 shadow-lg mb-3">
+          <div class="w-full h-full bg-slate-950 rounded-2xl flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-9 h-9 text-cyan-400" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M3 20.5v-17c0-.83.94-1.3 1.6-.8l14 8.5c.6.37.6 1.23 0 1.6l-14 8.5c-.66.5-1.6.03-1.6-.8z"/>
+            </svg>
+          </div>
+        </div>
+        <h1 class="text-2xl font-bold bg-gradient-to-r from-emerald-400 via-cyan-300 to-fuchsia-400 bg-clip-text text-transparent">
+          VIP প্লে স্টোর
+        </h1>
+        <p class="text-xs text-slate-400 mt-1">প্রবেশ করতে আপনার জিমেইল, ফোন নাম্বার এবং নাম দিন</p>
+      </div>
+
+      <form id="authRegisterForm" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">জিমেইল (Gmail Address) *</label>
+          <input type="email" id="inputGmail" required placeholder="example@gmail.com"
+            class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-700 text-sm text-white focus:outline-none focus:border-cyan-400 transition" />
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">ফোন নাম্বার (Phone Number) *</label>
+          <input type="tel" id="inputPhone" required placeholder="01XXXXXXXXX"
+            class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-700 text-sm text-white focus:outline-none focus:border-cyan-400 transition" />
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">আপনার নাম (Full Name) *</label>
+          <input type="text" id="inputName" required placeholder="আপনার পুরো নাম লিখুন"
+            class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-700 text-sm text-white focus:outline-none focus:border-cyan-400 transition" />
+        </div>
+        <button type="submit" id="loginSubmitBtn"
+          class="w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 via-cyan-500 to-indigo-600 hover:opacity-95 active:scale-[0.99] text-white font-bold text-base shadow-lg shadow-cyan-500/20 transition">
+          প্রবেশ করুন (Open Store)
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== BANNED USER SCREEN ==================== -->
+  <div id="bannedScreen" class="hidden w-full max-w-md min-h-screen flex flex-col justify-center px-5 py-8 z-30">
+    <div class="bg-rose-950/60 border border-rose-500/50 rounded-3xl p-6 text-center shadow-2xl">
+      <div class="w-16 h-16 mx-auto rounded-full bg-rose-500/20 border border-rose-500 flex items-center justify-center mb-4 text-3xl">🚫</div>
+      <h2 class="text-xl font-bold text-rose-300">আপনার অ্যাকাউন্ট ব্যান করা হয়েছে!</h2>
+      <p id="banReasonDisplay" class="text-xs text-slate-200 mt-2 bg-slate-950/80 p-3 rounded-xl border border-rose-500/30"></p>
+      <button onclick="switchAccount()" class="mt-5 px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-200">
+        অন্য অ্যাকাউন্ট দিয়ে প্রবেশ করুন
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================== 2. MAIN PLAY STORE INTERFACE ==================== -->
+  <div id="storeMainScreen" class="hidden w-full max-w-lg min-h-screen flex flex-col pb-28 px-3.5 pt-3 z-10 relative">
+
+    <header class="bg-slate-900/95 backdrop-blur-md border border-slate-800 rounded-2xl p-3 shadow-xl mb-3 mt-5">
+      <div class="flex items-center justify-between gap-2">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-pink-500 via-amber-400 to-cyan-400 p-0.5 shrink-0">
+            <div class="w-full h-full rounded-full bg-slate-950 flex items-center justify-center font-bold text-cyan-300 text-sm" id="headerAvatar">U</div>
+          </div>
+          <div class="min-w-0">
+            <h2 id="headerUserName" class="text-sm font-bold text-white truncate">ইউজার</h2>
+            <p id="headerUserGmail" class="text-[11px] text-slate-400 truncate">user@gmail.com</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button onclick="switchAccount()" title="অ্যাকাউন্ট পরিবর্তন"
+            class="px-2.5 py-1.5 rounded-xl bg-rose-600/20 border border-rose-500/40 text-rose-300 text-[11px] font-bold transition">
+            🔄 লগআউট
+          </button>
+          <button onclick="openModal('walletAddModal')"
+            class="flex items-center gap-1.5 bg-gradient-to-r from-emerald-600/30 to-cyan-600/30 border border-emerald-500/50 px-3 py-1.5 rounded-xl transition shrink-0">
+            <span class="text-sm">💳</span>
+            <div class="text-left">
+              <span class="block text-[9px] text-emerald-300 leading-none">ওয়ালেট</span>
+              <span class="text-xs font-extrabold text-white"><span id="headerWalletAmount">0</span> ৳</span>
+            </div>
+            <span class="ml-1 bg-emerald-500 text-slate-950 text-[10px] font-black px-1.5 py-0.5 rounded-md">+</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Search Box -->
+    <div class="relative mb-3">
+      <input type="text" id="storeSearchBox" oninput="renderAppCards()" placeholder="অ্যাপ বা প্যানেল খুঁজুন..."
+        class="w-full pl-9 pr-4 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500" />
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-slate-500 absolute left-3 top-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+    </div>
+
+    <!-- Free/Paid Tab Switcher -->
+    <div class="grid grid-cols-2 gap-2 p-1 bg-slate-900 rounded-2xl border border-slate-800 mb-4">
+      <button id="btnFreeTab" onclick="setActiveStoreTab('free')"
+        class="py-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 shadow">
+        <span>🆓 ফ্রি APK</span>
+        <span id="badgeFreeCount" class="px-1.5 bg-slate-950/20 rounded-full text-[10px]">0</span>
+      </button>
+      <button id="btnPaidTab" onclick="setActiveStoreTab('paid')"
+        class="py-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 text-slate-400 hover:text-white">
+        <span>💎 পেইড APK</span>
+        <span id="badgePaidCount" class="px-1.5 bg-slate-800 rounded-full text-[10px]">0</span>
+      </button>
+    </div>
+
+    <!-- Apps Grid -->
+    <div id="storeAppsGrid" class="space-y-3 flex-1"></div>
+  </div>
+
+  <!-- FLOATING FAB -->
+  <div id="floatingFabGroup" class="hidden fixed bottom-5 right-4 z-30 flex flex-col items-center gap-3">
+    <button onclick="openModal('userUploadModal')" title="অ্যাপ আপলোড করুন"
+      class="w-[52px] h-[52px] rounded-full bg-gradient-to-tr from-emerald-500 via-cyan-500 to-blue-600 text-white shadow-xl shadow-cyan-500/30 border-2 border-white/25 flex items-center justify-center hover:scale-105 active:scale-95 transition">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="12" y1="5" x2="12" y2="19"></line>
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+      </svg>
+    </button>
+  </div>
+
+  <!-- ==================== 3. WALLET DEPOSIT MODAL ==================== -->
+  <div id="walletAddModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-3 overflow-y-auto">
+    <div class="bg-slate-900 border border-slate-700 rounded-3xl w-full max-w-md p-5 shadow-2xl my-auto">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+        <h3 class="text-base font-bold text-white">💰 ওয়ালেটে টাকা যোগ করুন</h3>
+        <button onclick="closeModal('walletAddModal')" class="w-8 h-8 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center">✕</button>
+      </div>
+      <form id="walletAddForm" class="space-y-3">
+        <div class="grid grid-cols-2 gap-2.5">
+          <div>
+            <label class="block text-[11px] font-semibold text-slate-300 mb-1">মাধ্যম *</label>
+            <select id="depMethod" class="w-full px-3 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white">
+              <option value="bKash">বিকাশ (bKash)</option>
+              <option value="Nagad">নগদ (Nagad)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-[11px] font-semibold text-slate-300 mb-1">টাকার পরিমাণ (৳) *</label>
+            <input type="number" id="depAmount" required min="10" placeholder="যেমন: 100"
+              class="w-full px-3 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white" />
+          </div>
+        </div>
+        <div>
+          <label class="block text-[11px] font-semibold text-slate-300 mb-1">ট্রানজেকশন আইডি (TrxID) *</label>
+          <input type="text" id="depTrx" required placeholder="যেমন: 9H7K2L8P4M"
+            class="w-full px-3 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white uppercase" />
+        </div>
+        <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-600 text-white font-bold text-sm shadow-lg">
+          টাকা যোগ করুন
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== 4. PAID UNLOCK MODAL ==================== -->
+  <div id="paidUnlockModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-3 overflow-y-auto">
+    <div class="bg-slate-900 border border-slate-700 rounded-3xl w-full max-w-md p-5 shadow-2xl my-auto">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-3">
+        <h3 class="text-base font-bold text-amber-400">💎 পেইড APK আনলক করুন</h3>
+        <button onclick="closeModal('paidUnlockModal')" class="w-8 h-8 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center">✕</button>
+      </div>
+      <div id="paidAppSummaryBox" class="bg-slate-950 rounded-2xl p-3 border border-slate-800 mb-4"></div>
+      <button type="button" onclick="purchaseWithWallet()"
+        class="w-full py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 text-slate-950 font-extrabold text-xs shadow mb-3">
+        💳 ওয়ালেট ব্যালেন্স দিয়ে সাথে সাথে আনলক করুন
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================== 5. USER UPLOAD MODAL ==================== -->
+  <div id="userUploadModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-3 overflow-y-auto">
+    <div class="bg-slate-900 border border-slate-700 rounded-3xl w-full max-w-md p-5 shadow-2xl my-auto max-h-[92vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-3">
+        <div>
+          <h3 class="text-base font-bold text-cyan-300">➕ নতুন APK / প্যানেল আপলোড</h3>
+          <p class="text-[11px] text-amber-400">আপলোড ফি: ৫০ টাকা (ওয়ালেট থেকে কাটা হবে)</p>
+        </div>
+        <button onclick="closeModal('userUploadModal')" class="w-8 h-8 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center">✕</button>
+      </div>
+
+      <form id="userAppUploadForm" class="space-y-3">
+        <div>
+          <label class="block text-xs font-semibold text-slate-200 mb-1">আসল ফাইল (APK / ZIP) আপলোড করুন *</label>
+          <input type="file" id="uFile" required
+            class="w-full text-xs text-slate-300 file:mr-3 file:py-2 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-cyan-600 file:text-white bg-slate-950 border border-slate-700 rounded-xl p-1" />
+        </div>
+        <div class="grid grid-cols-2 gap-2.5">
+          <div>
+            <label class="block text-xs font-semibold text-slate-200 mb-1">অ্যাপের নাম *</label>
+            <input type="text" id="uName" required placeholder="যেমন: VIP Panel"
+              class="w-full px-3 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-200 mb-1">মূল্য (0 = ফ্রি) *</label>
+            <input type="number" id="uPrice" required min="0" value="0"
+              class="w-full px-3 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white" />
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-2.5">
+          <div>
+            <label class="block text-xs font-semibold text-slate-200 mb-1">ইউজারনেম</label>
+            <input type="text" id="uUsername" placeholder="Username"
+              class="w-full px-3 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-200 mb-1">পাসওয়ার্ড *</label>
+            <input type="text" id="uPassword" required placeholder="Password"
+              class="w-full px-3 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white" />
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-200 mb-1">ডেসক্রিপশন *</label>
+          <textarea id="uDesc" rows="2" required placeholder="অ্যাপ সম্পর্কে লিখুন..."
+            class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white"></textarea>
+        </div>
+        <button type="submit"
+          class="w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 via-cyan-500 to-blue-600 text-white font-bold text-sm shadow-lg">
+          আপলোড করুন (৫০ ৳ ফি)
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== DIRECT DOWNLOAD READY MODAL ==================== -->
+  <div id="downloadReadyModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-emerald-500/50 rounded-3xl w-full max-w-sm p-5 text-center shadow-2xl">
+      <div class="w-14 h-14 mx-auto rounded-2xl bg-emerald-500/20 border border-emerald-400 flex items-center justify-center text-2xl mb-3">🔓</div>
+      <h3 id="dlModalTitle" class="text-base font-bold text-white">অ্যাপ আনলক সফল!</h3>
+      <p id="dlModalCreds" class="text-xs text-cyan-300 bg-slate-950 p-2.5 rounded-xl border border-slate-800 my-3"></p>
+      
+      <!-- বাস্তব ডাউনলোড বাটন -->
+      <button id="directDownloadTriggerBtn" onclick="executeDirectDownload()"
+        class="w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-950 font-extrabold text-sm shadow-lg mb-2 flex items-center justify-center gap-2">
+        <span>📥 এখনই ডাউনলোড করুন (APK)</span>
+      </button>
+
+      <button onclick="closeModal('downloadReadyModal')" class="w-full py-2 rounded-xl bg-slate-800 text-xs text-slate-300">বন্ধ করুন</button>
+    </div>
+  </div>
+
+  <!-- ==================== LOGIC SCRIPT ==================== -->
+  <script>
+    const DEFAULT_APPS = [
+      {
+        id: 'sample_free_1',
+        name: 'FF Max Ultra Booster Pro (Free)',
+        price: 0,
+        username: 'free_vip',
+        password: '123',
+        description: 'গেমের ল্যাগ ফিক্স এবং স্মুথ FPS বুস্টার টুল। সম্পূর্ণ ফ্রি ভার্সন।',
+        fileName: 'FF_Ultra_Booster.apk',
+        fileDataContent: 'DEMO APK BINARY CONTENT FOR FREE BOOSTER',
+        uploader: 'VIP Official',
+        unlockedBy: []
+      },
+      {
+        id: 'sample_paid_1',
+        name: 'VIP Diamond Panel v9.0 (Anti-Ban)',
+        price: 150,
+        username: 'vip_panel',
+        password: 'VIP789',
+        description: '১০০% অ্যান্টি-ব্যান প্রিমিয়াম প্যানেল। অটো হেডশট ফিচার যুক্ত।',
+        fileName: 'VIP_Diamond_Panel.apk',
+        fileDataContent: 'DEMO APK BINARY CONTENT FOR DIAMOND PANEL',
+        uploader: 'VIP Official',
+        unlockedBy: []
+      }
+    ];
+
+    let liveUsersMap = JSON.parse(localStorage.getItem('vip_store_users_v2') || '{}');
+    let liveAppsList = JSON.parse(localStorage.getItem('vip_store_apps_v2') || JSON.stringify(DEFAULT_APPS));
+    let currentUserGmail = localStorage.getItem('vip_active_gmail') || '';
+    let activeStoreTab = 'free';
+    let currentBuyingAppId = null;
+    let activeDownloadBlobUrl = '';
+    let activeDownloadFileName = 'app.apk';
+
+    let toastTimer;
+    window.showToast = function(msg, type = 'info') {
+      const banner = document.getElementById('toastBanner');
+      const inner = document.getElementById('toastInner');
+      clearTimeout(toastTimer);
+
+      const themes = {
+        success: 'bg-emerald-950/95 border-emerald-500 text-emerald-200',
+        error: 'bg-rose-950/95 border-rose-500 text-rose-200',
+        warning: 'bg-amber-950/95 border-amber-500 text-amber-200',
+        info: 'bg-slate-900/95 border-cyan-500 text-cyan-200'
+      };
+      const icons = { success: '✅', error: '🚨', warning: '⚠️', info: '🤖' };
+
+      inner.className = `rounded-2xl px-4 py-3 shadow-2xl border text-xs font-semibold flex items-center gap-2.5 backdrop-blur-md ${themes[type] || themes.info}`;
+      inner.innerHTML = `<span class="text-base">${icons[type] || 'ℹ️'}</span><span>${msg}</span>`;
+      banner.classList.remove('hidden');
+
+      toastTimer = setTimeout(() => banner.classList.add('hidden'), 4200);
+    };
+
+    window.openModal = function(id) { document.getElementById(id).classList.remove('hidden'); };
+    window.closeModal = function(id) { document.getElementById(id).classList.add('hidden'); };
+
+    function persistData() {
+      localStorage.setItem('vip_store_users_v2', JSON.stringify(liveUsersMap));
+      localStorage.setItem('vip_store_apps_v2', JSON.stringify(liveAppsList));
+    }
+
+    // Login Form Event
+    document.getElementById('authRegisterForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const gmail = document.getElementById('inputGmail').value.trim().toLowerCase();
+      const phone = document.getElementById('inputPhone').value.trim();
+      const name = document.getElementById('inputName').value.trim();
+
+      if (!gmail || !phone || !name) {
+        showToast('সব তথ্য পূরণ করুন!', 'error');
+        return;
+      }
+
+      const existing = liveUsersMap[gmail];
+      liveUsersMap[gmail] = existing ? { ...existing, name, phone } : {
+        gmail, phone, name, wallet: 100, joinedAt: new Date().toLocaleDateString('bn-BD')
+      };
+
+      currentUserGmail = gmail;
+      localStorage.setItem('vip_active_gmail', gmail);
+      persistData();
+      syncCurrentUserSession();
+      showToast('লগইন সফল হয়েছে!', 'success');
+    });
+
+    function syncCurrentUserSession() {
+      if (!currentUserGmail) return;
+      const user = liveUsersMap[currentUserGmail];
+      if (!user) return;
+
+      document.getElementById('loginScreen').classList.add('hidden');
+      document.getElementById('storeMainScreen').classList.remove('hidden');
+      document.getElementById('rainbowWrapper').classList.remove('hidden');
+      document.getElementById('floatingFabGroup').classList.remove('hidden');
+
+      document.getElementById('headerUserName').textContent = user.name;
+      document.getElementById('headerUserGmail').textContent = user.gmail;
+      document.getElementById('headerAvatar').textContent = user.name.charAt(0).toUpperCase();
+      document.getElementById('headerWalletAmount').textContent = user.wallet || 0;
+
+      renderAppCards();
+    }
+
+    window.switchAccount = function() {
+      currentUserGmail = '';
+      localStorage.removeItem('vip_active_gmail');
+      document.getElementById('storeMainScreen').classList.add('hidden');
+      document.getElementById('rainbowWrapper').classList.add('hidden');
+      document.getElementById('floatingFabGroup').classList.add('hidden');
+      document.getElementById('loginScreen').classList.remove('hidden');
+    };
+
+    window.setActiveStoreTab = function(tab) {
+      activeStoreTab = tab;
+      const freeBtn = document.getElementById('btnFreeTab');
+      const paidBtn = document.getElementById('btnPaidTab');
+
+      if (tab === 'free') {
+        freeBtn.className = 'py-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 shadow';
+        paidBtn.className = 'py-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 text-slate-400 hover:text-white';
+      } else {
+        paidBtn.className = 'py-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 shadow';
+        freeBtn.className = 'py-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 text-slate-400 hover:text-white';
+      }
+      renderAppCards();
+    };
+
+    window.renderAppCards = function() {
+      const searchQ = document.getElementById('storeSearchBox').value.trim().toLowerCase();
+      const freeList = liveAppsList.filter(a => Number(a.price) === 0);
+      const paidList = liveAppsList.filter(a => Number(a.price) > 0);
+
+      document.getElementById('badgeFreeCount').textContent = freeList.length;
+      document.getElementById('badgePaidCount').textContent = paidList.length;
+
+      let shown = activeStoreTab === 'free' ? freeList : paidList;
+      if (searchQ) {
+        shown = shown.filter(a => a.name.toLowerCase().includes(searchQ) || a.description.toLowerCase().includes(searchQ));
+      }
+
+      const grid = document.getElementById('storeAppsGrid');
+      if (shown.length === 0) {
+        grid.innerHTML = `<div class="bg-slate-900/70 border border-slate-800 rounded-2xl p-8 text-center text-xs text-slate-400">কোনো অ্যাপ পাওয়া যায়নি।</div>`;
+        return;
+      }
+
+      grid.innerHTML = shown.map(app => {
+        const isFree = Number(app.price) === 0;
+        const unlocked = app.unlockedBy && app.unlockedBy.includes(currentUserGmail);
+
+        return `
+          <div class="bg-slate-900/95 border border-slate-800 rounded-2xl p-4 shadow-lg">
+            <div class="flex items-start justify-between gap-3">
+              <div class="flex items-center gap-3 min-w-0">
+                <div class="w-12 h-12 rounded-2xl ${isFree ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-400' : 'bg-amber-500/15 border-amber-500/40 text-amber-400'} border flex items-center justify-center text-xl shrink-0">
+                  ${isFree ? '📦' : '💎'}
+                </div>
+                <div class="min-w-0">
+                  <h3 class="text-sm font-bold text-white truncate">${app.name}</h3>
+                  <p class="text-[11px] text-slate-400">আপলোডার: ${app.uploader || 'Member'} • ${app.fileName || 'APK'}</p>
+                </div>
+              </div>
+              <span class="px-2.5 py-1 rounded-xl text-xs font-extrabold shrink-0 ${isFree ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : 'bg-amber-500/20 text-amber-300 border border-amber-500/40'}">
+                ${isFree ? 'ফ্রি (0 ৳)' : app.price + ' ৳'}
+              </span>
+            </div>
+
+            <p class="text-xs text-slate-300 mt-2.5 leading-relaxed bg-slate-950/60 p-2.5 rounded-xl border border-slate-800">
+              ${app.description}
+            </p>
+
+            <div class="mt-3 flex items-center justify-end">
+              ${isFree ? `
+                <div id="freeSlot_${app.id}">
+                  <button onclick="prepareDirectDownload('${app.id}')"
+                    class="px-5 py-2 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 text-xs font-extrabold shadow">
+                    ⬇️ ডাউনলোড করুন
+                  </button>
+                </div>
+              ` : `
+                ${unlocked ? `
+                  <button onclick="prepareDirectDownload('${app.id}')"
+                    class="px-5 py-2 rounded-xl bg-emerald-500 text-slate-950 text-xs font-extrabold shadow">
+                    🔓 ডাউনলোড (আনলকড)
+                  </button>
+                ` : `
+                  <button onclick="openPaidAppModal('${app.id}')"
+                    class="px-5 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 text-xs font-extrabold shadow">
+                    💳 কিনুন (${app.price} ৳)
+                  </button>
+                `}
+              `}
+            </div>
+          </div>
+        `;
+      }).join('');
+    };
+
+    window.prepareDirectDownload = function(appId) {
+      const app = liveAppsList.find(a => a.id === appId);
+      if (!app) return;
+
+      const content = app.fileDataContent || `APK Binary Data for ${app.name}`;
+      const blob = new Blob([content], { type: 'application/vnd.android.package-archive' });
+      activeDownloadBlobUrl = URL.createObjectURL(blob);
+      activeDownloadFileName = app.fileName || 'app.apk';
+
+      document.getElementById('dlModalTitle').textContent = app.name;
+      document.getElementById('dlModalCreds').innerHTML = `
+        ${app.username ? `ইউজারনেম: <strong>${app.username}</strong><br/>` : ''}
+        পাসওয়ার্ড: <strong class="text-amber-300">${app.password || 'N/A'}</strong>
+      `;
+      openModal('downloadReadyModal');
+    };
+
+    window.executeDirectDownload = function() {
+      if (!activeDownloadBlobUrl) {
+        showToast('ডাউনলোড লিংক তৈরি হয়নি!', 'error');
+        return;
+      }
+      const a = document.createElement('a');
+      a.href = activeDownloadBlobUrl;
+      a.download = activeDownloadFileName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      showToast('অ্যাপ ডাউনলোড শুরু হয়েছে!', 'success');
+    };
+
+    // Wallet Deposit
+    document.getElementById('walletAddForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const user = liveUsersMap[currentUserGmail];
+      if (!user) return;
+      const amount = Number(document.getElementById('depAmount').value);
+      user.wallet = Number(user.wallet || 0) + amount;
+      persistData();
+      e.target.reset();
+      closeModal('walletAddModal');
+      syncCurrentUserSession();
+      showToast(`${amount} ৳ ওয়ালেটে সফলভাবে যোগ হয়েছে!`, 'success');
+    });
+
+    window.openPaidAppModal = function(appId) {
+      const app = liveAppsList.find(a => a.id === appId);
+      if (!app) return;
+      currentBuyingAppId = appId;
+
+      document.getElementById('paidAppSummaryBox').innerHTML = `
+        <div class="flex items-center justify-between">
+          <div>
+            <h4 class="text-sm font-bold text-white">${app.name}</h4>
+            <p class="text-[11px] text-slate-400">আপলোডার: ${app.uploader}</p>
+          </div>
+          <span class="text-base font-extrabold text-amber-400">${app.price} ৳</span>
+        </div>
+      `;
+      openModal('paidUnlockModal');
+    };
+
+    window.purchaseWithWallet = function() {
+      const user = liveUsersMap[currentUserGmail];
+      const app = liveAppsList.find(a => a.id === currentBuyingAppId);
+      if (!user || !app) return;
+
+      if (Number(user.wallet || 0) < Number(app.price)) {
+        showToast(`ওয়ালেটে পর্যাপ্ত টাকা নেই! প্রয়োজন ${app.price} ৳`, 'error');
+        return;
+      }
+
+      user.wallet = Number(user.wallet) - Number(app.price);
+      if (!app.unlockedBy) app.unlockedBy = [];
+      app.unlockedBy.push(user.gmail);
+      persistData();
+
+      closeModal('paidUnlockModal');
+      syncCurrentUserSession();
+      prepareDirectDownload(app.id);
+      showToast('পেমেন্ট সফল! অ্যাপ আনলক হয়েছে।', 'success');
+    };
+
+    // User App Upload with Real File Reader
+    document.getElementById('userAppUploadForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const user = liveUsersMap[currentUserGmail];
+      if (!user) return;
+
+      if (Number(user.wallet || 0) < 50) {
+        showToast('আপলোড করতে ওয়ালেটে কমপক্ষে ৫০ টাকা লাগবে!', 'error');
+        return;
+      }
+
+      const fileInput = document.getElementById('uFile');
+      const file = fileInput.files[0];
+      if (!file) {
+        showToast('দয়া করে একটি ফাইল বাছুন!', 'error');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        const fileContentResult = event.target.result;
+        user.wallet = Number(user.wallet) - 50;
+
+        const newAppData = {
+          id: 'app_' + Date.now(),
+          name: document.getElementById('uName').value.trim(),
+          price: Number(document.getElementById('uPrice').value),
+          username: document.getElementById('uUsername').value.trim(),
+          password: document.getElementById('uPassword').value.trim(),
+          description: document.getElementById('uDesc').value.trim(),
+          fileName: file.name,
+          fileDataContent: fileContentResult,
+          uploader: user.name,
+          unlockedBy: [user.gmail]
+        };
+
+        liveAppsList.unshift(newAppData);
+        persistData();
+
+        e.target.reset();
+        closeModal('userUploadModal');
+        syncCurrentUserSession();
+        setActiveStoreTab(newAppData.price === 0 ? 'free' : 'paid');
+        showToast('ফাইল সফলভাবে আপলোড হয়েছে (৫০ ৳ ফি কাটা হয়েছে)।', 'success');
+      };
+      reader.readAsText(file);
+    });
+
+    window.addEventListener('load', () => {
+      if (currentUserGmail && liveUsersMap[currentUserGmail]) {
+        syncCurrentUserSession();
+      }
+    });
+  </script>
+</body>
+</html>
